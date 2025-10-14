@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+  
+<head>
+  <meta charset="utf-8" />
+  <title>Contacto</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+
+<body class="contacto">
+  <h1>Contacto</h1>
+  <form method="post" action="/guardarcontacto">
+    Ingrese sus datos y consulta - Este es un demo para evaluar funcionalidades básicas<br>
+    La consulta realizada podrá observarse en la sección "Ver Contactos/Consultas" debajo del botón ENVIAR<br>
+    <label>Nombre: <input name="nombre" required></label><br>
+    <label>Email: <input type="email" name="email" required></label><br>
+    <label>Mensaje:<br><textarea name="mensaje" required></textarea></label><br>
+    <button type="submit">Enviar</button>
+  </form>
+  <p><a href="/listarcontactos">Ver Contactos/Consultas</a> | <a href="/">Inicio</a></p>
+
+  <footer>
+  <small> &copy; 2025 Desarrollado por Giuliana Mandrini Gatti </small>
+</footer>
+
+</body>
+</html>

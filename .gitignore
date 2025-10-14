@@ -1,0 +1,10 @@
+// Archivos y directorios a ignorar por Git (no use modulos pero por las dudas lo dejo)
+node_modules/
+
+// Archivos temporales y de sistema
+tmp/
+.DS_Store
+
+// Archivos de datos generados por la aplicación
+data/
+

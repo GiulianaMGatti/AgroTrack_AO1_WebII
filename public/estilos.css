@@ -1,0 +1,258 @@
+/* =========================
+   AgroTrack — estilos.css (centrado vertical)
+   ========================= */
+
+:root {
+  --bg: #0f120f;
+  --panel: #111512;
+  --panel-2: #151a16;
+  --surface: #1b211c;
+  --text: #e6efe7;
+  --muted: #b9c6bb;
+  --line: #2a322b;
+  --leaf: #4CAF50;
+  --sprout: #9BE280;
+  --earth: #8E6E53;
+  --sun: #FFD166;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
+  --focus: 0 0 0 3px rgba(155,226,128,.45);
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", "Noto Sans", Arial;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f7f5;
+    --panel: #ffffff;
+    --panel-2: #f9fbf9;
+    --surface: #ffffff;
+    --text: #1f2a21;
+    --muted: #4b6350;
+    --line: #e4ebe6;
+    --shadow: 0 8px 24px rgba(16,24,20,.08);
+  }
+}
+
+/* -------- RESET + LAYOUT -------- */
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(76,175,80,.06), transparent 60%),
+    radial-gradient(1200px 600px at 0% 110%, rgba(142,110,83,.08), transparent 60%),
+    linear-gradient(180deg, var(--panel) 0%, var(--bg) 100%);
+}
+
+/* Centrado vertical */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* centra verticalmente */
+  align-items: center;      /* centra el contenedor, pero el texto sigue normal */
+  min-height: 100vh;
+}
+
+/* Contenedor principal */
+body > * {
+  width: 100%;
+  max-width: 700px;
+  padding-inline: 1.5rem;
+}
+
+/* -------- TIPOGRAFÍA -------- */
+h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  color: var(--sprout);
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+h3 {
+  color: var(--muted);
+  margin-top: 0;
+  text-align: center;
+}
+
+p {
+  color: var(--muted);
+  margin-top: 1;
+  text-align: center;
+}
+
+/* -------- NAV -------- */
+nav {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+}
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sprout), var(--sun));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+nav a:hover::after { transform: scaleX(1); }
+nav a:hover { color: var(--sprout); }
+
+/* -------- FORMULARIOS -------- */
+form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+label {
+  display: block;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+input, textarea {
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+}
+button {
+  display: block;
+  margin: 1.5rem auto 0;
+  background: linear-gradient(180deg, var(--sprout), var(--leaf));
+  color: #0c130d;
+  font-weight: 700;
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(76,175,80,.25);
+  transition: transform .1s ease, filter .2s ease;
+}
+button:hover { filter: brightness(1.1); }
+button:active { transform: scale(0.98); }
+
+a {
+  color: var(--leaf);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* -------- class productos -------- en tres columnas alineadas horizontalmente y dispuestas en cajas sombreadas */
+body.productos {
+  padding: 2rem 1.5rem;
+  /* Alinear el contenido hacia arriba para que el H1 quede visible en la parte superior */
+  justify-content: flex-start;
+  align-items: center; /* mantener el centrado horizontal del contenedor */
+}
+
+/* -------- Página contacto: asegurar que el título sea visible y permita scroll -------- */
+body.contacto {
+  padding: 2rem 1.5rem;
+  justify-content: flex-start; /* alinear hacia arriba */
+  align-items: center; /* centrar horizontalmente */
+  overflow: auto; /* permitir scroll si el contenido excede la altura */
+}
+
+/* permitir que la página de productos tenga más anchura para mostrar las tarjetas en fila */
+body.productos > * {
+  max-width: 1000px;
+  width: 100%;
+}
+.container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* permite que las tarjetas bajen a la siguiente fila en móvil */
+  margin-top: 1rem;
+}
+
+.productos .column {
+  background: linear-gradient(180deg, var(--panel-2), var(--surface));
+  border: 2px solid var(--sprout); /* borde verde similar al título */
+  border-radius: calc(var(--radius) - 4px);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  flex: 1 1 220px; /* crecer, encoger, base 220px */
+  max-width: 260px;
+  min-width: 180px;
+  color: var(--text);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.productos .column:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0,0,0,.36);
+}
+
+.productos .column h2 {
+  color: var(--sprout);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.productos h1 { margin-top: 0.25rem; }
+
+.productos .column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.productos .column li {
+  background: rgba(155,226,128,0.04);
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(155,226,128,0.06);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 520px) {
+  .container { gap: 0.6rem; }
+  .productos .column { flex-basis: 100%; max-width: 100%; }
+}
+.producto {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  text-align: center;
+}
+
+/* -------- FOOTER -------- */
+footer {
+  margin-top: 2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}

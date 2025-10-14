@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Login demo</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+
+<body>
+  <h1>Login de demostración</h1>
+  <form method="post" action="/recuperardatos">
+    Ingrese su nombre de Usuario y Clave - Este es un demo para evaluar funcionalidades básicas<br>
+    Los datos ingresados no se validan ni almacenan en ninguna base de datos.<br>
+    Al ingresarlos y colocar "Enviar", los mismos apareceran en la página siguiente.<br><br>
+    <label>Usuario: <input type="text" name="usuario" size="30" placeholder="Ingrese el Usuario" required></label><br>
+    <label>Clave: <input type="password" name="clave" size="30" placeholder="Ingrese su contraseña" required></label><br>
+    <button type="submit">Enviar</button>
+  </form>
+  <p><a href="/">Inicio</a></p>
+
+  <footer>
+    <small> &copy; 2025 Desarrollado por Giuliana Mandrini Gatti </small>
+  </footer>
+</body>
+</html>
