@@ -48,14 +48,14 @@ Crea un archivo **.env** en la raíz del proyecto basado en el `.env.example`:
 ```bash
 PORT=3000
 DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_PORT=3006  
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=agrotrack
 ```
 
 > ⚠️ **No subas tu archivo `.env` al repositorio.**  
-> Solo se debe versionar `.env.example`.
+> Solo se debe versionar `.env.example` y reflejar también aquí `DB_PORT=3006`.
 
 ---
 
@@ -164,7 +164,7 @@ baseUrl = http://localhost:3000
 
 - [x] Servidor Express funcional  
 - [x] Middleware de logger y error handler  
-- [x] Variables de entorno con `.env` y `.env.example`  
+- [x] Variables de entorno con `.env` y `.env.example` (DB_PORT=3006)  
 - [x] Conexión MySQL funcionando  
 - [x] Rutas `/health` y `/api/contactos` (GET/POST)  
 - [x] Validaciones y manejo de errores  
