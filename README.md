@@ -1,122 +1,181 @@
-# 🌾 AgroTrack – Actividad Obligatoria 1
+# 🌾 AgroTrack AO2 – API con Express y MySQL
 
-**Materia:** Programación de Aplicaciones Web II  
-**Carrera:** TUDAI – Tecnicatura Universitaria en Desarrollo de Aplicaciones Informáticas  
-**Estudiante:** Giuliana Mandrini  
-**Año:** 2025  
-
----
-
-## Descripción general
-
-AgroTrack es un **MVP (Producto Mínimo Viable)** de un portal de gestión agrícola desarrollado con **Node.js nativo** (sin frameworks externos).  
-Permite acceder a un sitio estático con distintas secciones y procesar formularios mediante los métodos **GET** y **POST**, grabando datos en archivos del servidor.  
-
-El objetivo es demostrar la comprensión de los conceptos de **servidor HTTP, ruteo, manejo de MIME types, asincronía y tratamiento de errores (404 / 500)** usando solo los módulos básicos de Node.js (`http`, `fs`, `path`, `url`).
+### 🧠 Materia:
+**Programación de Aplicaciones Web II**  
+### 👩‍💻 Autora:
+**Giuliana Mandrini Gatti**
 
 ---
 
-## Estructura del proyecto
-agrotrack/
-├─ server.js → Servidor Node principal
-├─ public/
-│ ├─ index.html → Página principal
-│ ├─ productos.html → Listado modelo de productos
-│ ├─ contacto.html → Formulario de contacto
-│ ├─ login.html → Login de demostración
-│ └─ estilos.css → Hoja de estilos común
-├─ data/
-│ └─ contactos.txt → Archivo generado dinámicamente con consultas
-├─ .gitignore
+## 📋 Descripción
+Esta segunda versión del proyecto **AgroTrack** implementa una **API REST** desarrollada con **Node.js**, **Express** y **MySQL**, cumpliendo con los requerimientos de la Actividad Obligatoria 2.  
+El objetivo es exponer una API de contactos que permita recibir y listar consultas almacenadas en una base de datos MySQL.
+
+---
+
+## ⚙️ Tecnologías utilizadas
+- Node.js  
+- Express.js  
+- MySQL (con `mysql2/promise`)  
+- Dotenv  
+- Nodemon (para desarrollo)
+
+---
+
+## 🗂️ Estructura del proyecto
+
+```
+agrotrackAO2/
+│
+├─ app.js                 # Servidor principal Express
+├─ db.js                  # Conexión a MySQL
+├─ routes/contactos.js    # Endpoints /api/contactos
+├─ middleware/
+│   ├─ logger.js          # Middleware de registro de solicitudes
+│   └─ errorHandler.js    # Manejo centralizado de errores
+├─ public/                # Archivos estáticos (index, estilos, favicon, etc.)
+├─ sql/schema.sql         # Script para crear la BD y tabla
+├─ .env.example           # Variables de entorno de ejemplo
 ├─ README.md
-└─ AgroTrack.postman_collection.json
+└─ AgroTrack-AO2.postman_collection.json
+```
 
+---
 
-## Requisitos de ejecución
-- Node.js v18 o superior instalado.
-- El proyecto no necesita dependencias externas (`package.json` no requerido).
+## 🧩 Variables de entorno
+Crea un archivo **.env** en la raíz del proyecto basado en el `.env.example`:
 
-### Para ejecutar:
 ```bash
-node server.js
-Luego abrir en el navegador:
-http://localhost:8888/
+PORT=3000
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=agrotrack
+```
 
----------------------------
-Rutas disponibles
+> ⚠️ **No subas tu archivo `.env` al repositorio.**  
+> Solo se debe versionar `.env.example`.
+
+---
+
+## 💾 Base de datos
+Ejecutar el siguiente script para crear la base y la tabla necesarias:
+
+**Archivo:** `sql/schema.sql`
+```sql
+CREATE DATABASE IF NOT EXISTS agrotrack;
+USE agrotrack;
+
+CREATE TABLE IF NOT EXISTS contactos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre  VARCHAR(100) NOT NULL,
+  email   VARCHAR(150) NOT NULL,
+  mensaje TEXT NOT NULL,
+  fecha   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## 🚀 Instalación y ejecución
+
+```bash
+# Instalar dependencias
+npm install
+
+# Ejecutar en modo desarrollo
+npm run dev
+
+# O modo producción
+npm start
+```
+
+El servidor se iniciará en:  
+👉 **http://localhost:3000**
+
+---
+
+## 📡 Endpoints disponibles
 
 | Método | Ruta | Descripción |
-|:-------|:-----|:------------|
-| GET | `/` | Página principal |
-| GET | `/productos.html` | Lista de productos |
-| GET | `/contacto` | Formulario de contacto |
-| POST | `/guardarcontacto` | Guarda datos |
-| GET | `/listarcontactos` | Muestra los registros |
-| GET | `/login` | Login demo |
-| POST | `/recuperardatos` | Procesa datos del login |
+|---------|------|-------------|
+| GET | `/health` | Verifica el estado del servidor |
+| GET | `/api/contactos` | Devuelve todas las consultas registradas |
+| POST | `/api/contactos` | Registra una nueva consulta (nombre, email, mensaje) |
 
--------------------------------------
+---
 
-Funcionalidades principales
-Servidor HTTP implementado con el módulo http.
-Lectura y escritura de archivos mediante fs y fs.promises.
-Ruteo manual por URL y método (GET/POST).
-Persistencia: los datos del formulario de contacto se guardan en data/contactos.txt.
-Listado dinámico: /listarcontactos muestra todas las consultas recibidas.
-Login de demostración: muestra usuario y clave enviados (no valida autenticación real).
-Manejo de errores 404 y 500 con mensajes personalizados en HTML.
+## 📬 Ejemplo de uso (POST /api/contactos)
 
----------------------------------------------------
+**Request:**
+```json
+{
+  "nombre": "Giuli",
+  "email": "giuli@mail.com",
+  "mensaje": "Hola AgroTrack!"
+}
+```
 
-Justificación técnica
-Manejo de MIME types: tabla MIME define encabezados adecuados según extensión (.html, .css, .png, etc.).
-Asincronía: uso de fs.readFile y fs.appendFile con callbacks y promesas.
-Seguridad mínima: normalización de rutas (path.normalize) para evitar directory traversal.
-Errores controlados:
-404 cuando el recurso solicitado no existe.
-500 cuando ocurre una excepción interna (I/O, inexistencia de carpeta data).
-Escalabilidad: estructura de carpetas separada (public/ para estáticos, data/ para persistencia).
-Buenas prácticas: .gitignore, nombres claros de funciones (recuperar, guardarContacto, listarContactos).
+**Response (201 Created):**
+```json
+{
+  "id": 1,
+  "nombre": "Giuli",
+  "email": "giuli@mail.com",
+  "mensaje": "Hola AgroTrack!"
+}
+```
 
----------------------------------------------------------------------------
+**Error (400):**
+```json
+{ "error": "nombre, email y mensaje son obligatorios" }
+```
 
+---
 
-Pruebas exitosas
-Acceso a / muestra la página principal.
-Envío del formulario de contacto → genera registro en data/contactos.txt.
-Acceso a /listarcontactos → muestra el listado con formato de registro.
-Envío del formulario de login → muestra usuario y clave enviados.
+## 🧪 Uso con Postman
 
-Pruebas de error controlado
-Tipo | Cómo reproducir	                            |  Resultado esperado
-404	 | Ingresar a /archivo-inexistente	            |  Página con mensaje “Recurso inexistente”.
-500	 | Eliminar carpeta data/ y reenviar formulario |  El servidor captura el error y continúa funcionando.
+### 📦 Importar la colección
+1. Abrí **Postman** (versión de escritorio o Web + Desktop Agent).  
+2. Hacé clic en **Import → Raw text**.  
+3. Pegá el contenido del archivo `AgroTrack-AO2.postman_collection.json`.  
+4. Confirmá con **Import**.
 
-----------------------------------------------------------------------------
+### 🔗 Configurar variable baseUrl
+En la pestaña *Variables* de la colección:
+```
+baseUrl = http://localhost:3000
+```
 
-Colección Postman
+### 🧭 Requests incluidos
+| Nombre | Método | Descripción |
+|--------|--------|-------------|
+| **GET /health** | Verifica el estado del servidor |
+| **GET /api/contactos** | Devuelve todos los registros |
+| **POST /api/contactos (válido)** | Inserta un contacto correcto |
+| **POST /api/contactos (inválido)** | Prueba las validaciones del servidor |
 
-Se incluye el archivo AgroTrack.postman_collection.json con todas las peticiones para testear el servidor.
+> Todos los endpoints devuelven respuestas en formato JSON.
 
-Request	                              Método	  URL	                            Descripción
-Home	                              GET	     {{baseUrl}}/	                    Página principal
-Productos	                          GET	     {{baseUrl}}/productos.html	        Lista de productos
-Contacto – Formulario	              GET	     {{baseUrl}}/contacto	            Formulario de contacto
-Contacto – Guardar	                  POST	     {{baseUrl}}/guardarcontacto	    Guarda datos
-Contacto – Listar	                  GET	     {{baseUrl}}/listarcontactos	    Muestra contactos
-Login – Formulario	                  GET	     {{baseUrl}}/login	                Formulario de login
-Login – Procesar	                  POST	     {{baseUrl}}/recuperardatos	        Procesa datos demo
+---
 
-Importar en Postman
-Abrir Postman → Import
-Seleccionar AgroTrack.postman_collection.json
-Usar {{baseUrl}} = http://localhost:8888
-Ejecutar cada request para validar las rutas.
+## 🧾 Checklist de entrega
 
----------------------------------------------------------------------------------
+- [x] Servidor Express funcional  
+- [x] Middleware de logger y error handler  
+- [x] Variables de entorno con `.env` y `.env.example`  
+- [x] Conexión MySQL funcionando  
+- [x] Rutas `/health` y `/api/contactos` (GET/POST)  
+- [x] Validaciones y manejo de errores  
+- [x] Documentación en README  
+- [x] Colección Postman incluida  
 
+---
 
-### Imagen para GitHub
-![demo](/imagenes/screenshot.png.png)
-![Captura de AgroTrack](/imagenes/screenshot.png.png)
+## 🕓 Historial de versiones
 
+| Versión | Descripción |
+|----------|-------------|
+| **AO1** | Servidor HTTP nativo con persistencia en archivo `.txt` |
+| **AO2** | Migración a Express, MySQL y validaciones completas |
