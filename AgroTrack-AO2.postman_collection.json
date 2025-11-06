@@ -1,0 +1,122 @@
+{
+  "info": {
+    "_postman_id": "00000000-0000-0000-0000-000000000001",
+    "name": "AgroTrack AO2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.code === 200);",
+              "pm.test(\"Body tiene status ok\", () => pm.response.json().status === 'ok');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "GET /api/contactos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/contactos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "contactos"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.code === 200);",
+              "pm.test(\"Respuesta es array\", () => Array.isArray(pm.response.json()));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "POST /api/contactos (válido)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Giuli\",\n  \"email\": \"giuli@mail.com\",\n  \"mensaje\": \"Hola AgroTrack!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/contactos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "contactos"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 201\", () => pm.response.code === 201);",
+              "const json = pm.response.json();",
+              "pm.test(\"Tiene id\", () => json.id && typeof json.id === 'number');",
+              "pm.test(\"Echo de campos\", () => json.nombre && json.email && json.mensaje);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "POST /api/contactos (inválido)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Giuli\",\n  \"mensaje\": \"Falta el email\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/contactos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "contactos"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.code === 400);",
+              "pm.test(\"Devuelve error\", () => pm.response.json().error);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ]
+}
