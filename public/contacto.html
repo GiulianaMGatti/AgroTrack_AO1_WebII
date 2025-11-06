@@ -9,7 +9,7 @@
 
 <body class="contacto">
   <h1>Contacto</h1>
-  <form method="post" action="/guardarcontacto">
+<form id="contactForm">
     Ingrese sus datos y consulta - Este es un demo para evaluar funcionalidades básicas<br>
     La consulta realizada podrá observarse en la sección "Ver Contactos/Consultas" debajo del botón ENVIAR<br>
     <label>Nombre: <input name="nombre" required></label><br>
@@ -22,6 +22,34 @@
   <footer>
   <small> &copy; 2025 Desarrollado por Giuliana Mandrini Gatti </small>
 </footer>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // evita que se recargue la página
+
+    // Tomamos los valores del formulario
+    const data = Object.fromEntries(new FormData(e.target));
+
+    try {
+      const res = await fetch('/api/contactos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert('✅ Consulta enviada correctamente');
+        e.target.reset(); // limpia los campos
+        window.location.href = '/listarcontactos'; // redirige a la lista
+      } else {
+        const err = await res.json();
+        alert('❌ Error: ' + (err.error || res.statusText));
+      }
+    } catch (err) {
+      alert('⚠️ No se pudo enviar la consulta: ' + err.message);
+    }
+  });
+</script>
 
 </body>
 </html>

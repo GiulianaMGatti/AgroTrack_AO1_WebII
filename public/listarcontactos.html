@@ -1,0 +1,57 @@
+<!-- public/listarcontactos.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Contactos y Consultas</title>
+  <link rel="stylesheet" href="/estilos.css" /> <!-- ruta absoluta -->
+</head>
+<body class="listarcontactos">
+  <h1>Contactos y Consultas Recibidas</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Mensaje</th>
+      </tr>
+    </thead>
+    <tbody id="contactos-table-body"></tbody>
+  </table>
+
+  <p>
+    <a href="contacto.html">Volver al Formulario de Contacto</a> |
+    <a href="/">Inicio</a>
+  </p>
+
+  <footer>
+    <small>&copy; 2025 Desarrollado por Giuliana Mandrini Gatti</small>
+  </footer>
+
+  <script>
+    async function cargarContactos() {
+      try {
+        const res = await fetch('/api/contactos');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const contactos = await res.json();
+
+        const tbody = document.getElementById('contactos-table-body');
+        tbody.innerHTML = contactos.map(c => `
+          <tr>
+            <td>${c.nombre}</td>
+            <td>${c.email}</td>
+            <td>${c.mensaje}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Error al cargar los contactos:', err);
+        alert('No se pudieron cargar los contactos.');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', cargarContactos);
+  </script>
+</body>
+</html>
+
