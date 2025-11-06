@@ -48,7 +48,7 @@ Crea un archivo **.env** en la raíz del proyecto basado en el `.env.example`:
 ```bash
 PORT=3000
 DB_HOST=127.0.0.1
-DB_PORT=3006  
+DB_PORT=3006   # <— Puerto REAL de tu MySQL
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=agrotrack
@@ -160,6 +160,18 @@ baseUrl = http://localhost:3000
 
 ---
 
+## 📸 Resultados de prueba
+
+### ✅ Health Check  
+![Health Check](./imagenes/health-ok.png.png)
+
+### 📤 Inserción de contacto (POST)  
+![POST Contacto](./imagenes/post-contact.png.png)
+
+> Las imágenes se encuentran dentro de la carpeta `imagenes/` del proyecto y muestran las respuestas correctas de los endpoints `/health` y `/api/contactos` en Postman.
+
+---
+
 ## 🧾 Checklist de entrega
 
 - [x] Servidor Express funcional  
@@ -170,6 +182,80 @@ baseUrl = http://localhost:3000
 - [x] Validaciones y manejo de errores  
 - [x] Documentación en README  
 - [x] Colección Postman incluida  
+- [x] Formulario de contacto funcional (fetch + redirección)  
+- [x] Login con credenciales predefinidas
+
+---
+
+## 🔐 Login de demostración
+
+El sistema incluye una página de **login básico** (demo) accesible desde:
+
+```
+http://localhost:3000/login.html
+```
+
+### 📋 Descripción
+El login no valida contra una base de datos: es solo una **prueba funcional** para evaluar el flujo de envío y respuesta con `fetch()`.  
+Las credenciales válidas se definen manualmente en el archivo **`app.js`**, dentro de la ruta:
+
+```js
+app.post('/login', (req, res) => {
+  const { usuario, clave } = req.body;
+  if (!usuario || !clave) {
+    return res.status(400).send('Faltan credenciales');
+  }
+
+  // 💡 Usuario y contraseña definidos en el backend
+  const usuarioValido = 'giuli';
+  const claveValida = '1234';
+
+  if (usuario.toLowerCase() === usuarioValido && clave === claveValida) {
+    return res.status(200).send('Bienvenida, Giuli 👋');
+  } else {
+    return res.status(401).send('Usuario o clave incorrectos');
+  }
+});
+```
+
+---
+
+### 🧠 Cómo usarlo
+
+1. Ingresar a `http://localhost:3000/login.html`  
+2. Escribir las credenciales predefinidas:
+
+| Usuario | Contraseña |
+|----------|-------------|
+| `giuli`  | `1234` |
+
+3. Presionar **Enviar**.  
+   - Si los datos son correctos, aparecerá un mensaje de éxito ✅ y el sistema redirigirá automáticamente a `/contacto.html`.  
+   - Si son incorrectos, se mostrará un mensaje de error ⚠️ sin recargar la página.
+
+---
+
+### ⚙️ Personalizar tus propias credenciales
+
+Podés modificar libremente el usuario y contraseña desde `app.js`:
+
+```js
+const usuarioValido = 'admin';
+const claveValida = 'admin123';
+```
+
+Luego guardá y reiniciá el servidor con:
+
+```bash
+npm run dev
+```
+
+---
+
+### 💬 Notas
+- El login usa `fetch()` para enviar los datos en formato JSON.  
+- No guarda sesiones ni utiliza base de datos (es solo demostrativo).  
+- Todo el comportamiento se maneja desde el frontend (`login.html`) y el backend (`app.js`).
 
 ---
 
@@ -178,4 +264,4 @@ baseUrl = http://localhost:3000
 | Versión | Descripción |
 |----------|-------------|
 | **AO1** | Servidor HTTP nativo con persistencia en archivo `.txt` |
-| **AO2** | Migración a Express, MySQL y validaciones completas |
+| **AO2** | Migración a Express, MySQL, formularios dinámicos y login con fetch |
