@@ -133,14 +133,21 @@ function guardarContacto(pedido, respuesta) {
 
 // funcion para grabar en archivo
 function grabarEnArchivo(formulario) {
-    const datos = `Nombre: ${formulario.get('nombre')} - Email: ${formulario.get('email')} - Mensaje: ${formulario.get('mensaje')}\n`;
-    fs.appendFile('data/contactos.txt', datos, (err) => {
-        if (err) {
-            console.error('Error al guardar los datos en el archivo:', err);
-        } else {
-            console.log('Datos guardados en el archivo contactos.txt');
-        }
-    });
+  const datos = `
+==============================
+Fecha: ${new Date().toLocaleString()} - 
+Nombre: ${formulario.get('nombre')} - 
+Email: ${formulario.get('email')} - 
+Mensaje: ${formulario.get('mensaje')}
+==============================\n`;
+
+  fs.appendFile('data/contactos.txt', datos, (err) => {
+    if (err) {
+      console.error('Error al guardar los datos en el archivo:', err);
+    } else {
+      console.log('Datos guardados en el archivo contactos.txt');
+    }
+  });
 }
 
 //funcion para listar los contactos guardados
