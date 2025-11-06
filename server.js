@@ -133,7 +133,14 @@ function guardarContacto(pedido, respuesta) {
 
 // funcion para grabar en archivo
 function grabarEnArchivo(formulario) {
-    const datos = `Nombre: ${formulario.get('nombre')} - Email: ${formulario.get('email')} - Mensaje: ${formulario.get('mensaje')}\n`;
+    const datos = `
+    ===========================
+    Fecha: ${new Date().toLocaleString()} - \n
+    Nombre: ${formulario.get('nombre')} - \n
+    Email: ${formulario.get('email')} - \n
+    Mensaje: ${formulario.get('mensaje')}\n
+    ===========================\n`;
+
     fs.appendFile('data/contactos.txt', datos, (err) => {
         if (err) {
             console.error('Error al guardar los datos en el archivo:', err);
