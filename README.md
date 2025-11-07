@@ -42,17 +42,21 @@ agrotrackAO2/
 
 ---
 
-## 🧩 Variables de entorno
-Crea un archivo **.env** en la raíz del proyecto basado en el `.env.example`:
+## 🌟 Variables de entorno
+
+Crea un archivo **`.env`** en la raíz del proyecto basándote en el `.env.example`.
+
+---
+
+### 🧱 Archivo `.env.example`
+
+El repositorio incluye un archivo llamado `.env.example`, que sirve como plantilla para configurar las variables de entorno necesarias para ejecutar la API.
+
+Antes de iniciar el servidor, se debe crear un archivo `.env` copiando este modelo:
 
 ```bash
-PORT=3000
-DB_HOST=127.0.0.1
-DB_PORT=3006   # <— Puerto REAL de tu MySQL
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=agrotrack
-```
+cp .env.example .env
+
 
 > ⚠️ **No subas tu archivo `.env` al repositorio.**  
 > Solo se debe versionar `.env.example` y reflejar también aquí `DB_PORT=3006`.
